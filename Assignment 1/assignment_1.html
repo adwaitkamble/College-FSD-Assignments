@@ -1,0 +1,376 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saffron Spice | Restaurant Website</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f8f8f8;
+      color: #222;
+      line-height: 1.5;
+    }
+    .container {
+      width: 90%;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    header, nav, main, footer {
+      background: #fff;
+    }
+    header {
+      text-align: center;
+      padding: 24px 12px;
+      border-bottom: 2px solid #e2e2e2;
+    }
+    nav {
+      border-bottom: 1px solid #ececec;
+    }
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 12px 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+    }
+    nav a {
+      text-decoration: none;
+      color: #8a3d00;
+      font-weight: bold;
+    }
+    section {
+      padding: 20px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    h1, h2, h3 {
+      margin-top: 0;
+    }
+    .highlight {
+      background: #fff3d9;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fffdf8;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background: #ffe8c7;
+    }
+    fieldset {
+      border: 1px solid #d9d9d9;
+      padding: 14px;
+      background: #fff;
+    }
+    label {
+      display: inline-block;
+      width: 140px;
+      margin-bottom: 8px;
+      vertical-align: top;
+    }
+    input, select, textarea {
+      width: 70%;
+      max-width: 400px;
+      padding: 6px;
+      margin-bottom: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font: inherit;
+    }
+    button {
+      background: #8a3d00;
+      color: #fff;
+      border: 0;
+      padding: 10px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    footer {
+      text-align: center;
+      padding: 16px 12px 28px;
+      color: #555;
+    }
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .events-ticker {
+      overflow: hidden;
+      border: 1px solid #ffd8ae;
+      background: #fff7ec;
+      border-radius: 6px;
+      padding: 10px 0;
+      white-space: nowrap;
+    }
+    .events-track {
+      display: inline-block;
+      padding-left: 100%;
+      animation: ticker-ltr 20s linear infinite;
+      color: #7a2f00;
+      font-weight: bold;
+    }
+    .events-track span {
+      margin-right: 36px;
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    @keyframes ticker-ltr {
+      from {
+        transform: translateX(-100%);
+      }
+      to {
+        transform: translateX(100%);
+      }
+    }
+    @media (max-width: 720px) {
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+      label, input, select, textarea {
+        width: 100%;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .events-track {
+        animation: none;
+        padding-left: 0;
+      }
+      .reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1><mark>Saffron Spice Restaurant</mark></h1>
+      <p><strong>Authentic Indian Cuisine</strong> | Pune</p>
+      <p>Open Daily: <time datetime="12:00">12:00 PM</time> to <time datetime="23:00">11:00 PM</time></p>
+    </div>
+  </header>
+
+  <nav>
+    <div class="container">
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#specials">Specials</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#reservation">Reservation</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+      <section id="events" class="reveal">
+        <h2>Upcoming Events</h2>
+        <div class="events-ticker" aria-label="Upcoming restaurant events">
+          <div class="events-track">
+            <span>March 20, 2026: Live Sufi Night</span>
+            <span>March 24, 2026: Biryani Festival Week</span>
+            <span>March 29, 2026: Family Buffet Sunday</span>
+            <span>April 2, 2026: Chef's Tasting Menu Launch</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="about" class="reveal">
+        <h2>About Us</h2>
+        <article>
+          <p>
+            Welcome to <strong>Saffron Spice</strong>, a family restaurant known for
+            <em>fresh ingredients</em>, <b>traditional recipes</b>, and warm service.
+            Our mission is to deliver a dining experience that feels both premium and comfortable.
+          </p>
+          <blockquote>
+            <q>Great food is not just cooked, it is crafted with care.</q>
+          </blockquote>
+          <p>
+            Certified by
+            <abbr title="Food Safety and Standards Authority of India">FSSAI</abbr>,
+            we maintain strict hygiene and kitchen standards.
+          </p>
+          <p>
+            Our signature masala blend has flavor level 10<sup>2</sup>, and fresh water used in cooking is H<sub>2</sub>O.
+          </p>
+        </article>
+      </section>
+
+      <section id="menu" class="reveal">
+        <h2>Popular Menu</h2>
+        <p>Our <span class="highlight">best-selling</span> dishes and prices:</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Dish</th>
+              <th>Category</th>
+              <th>Price (INR)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Paneer Tikka</td>
+              <td>Starter</td>
+              <td>280</td>
+            </tr>
+            <tr>
+              <td>Butter Chicken</td>
+              <td>Main Course</td>
+              <td>420</td>
+            </tr>
+            <tr>
+              <td>Veg Biryani</td>
+              <td>Main Course</td>
+              <td>320</td>
+            </tr>
+            <tr>
+              <td>Dal Makhani</td>
+              <td>Main Course</td>
+              <td>290</td>
+            </tr>
+            <tr>
+              <td>Gulab Jamun</td>
+              <td>Dessert</td>
+              <td>140</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="specials" class="two-col reveal">
+        <article>
+          <h2>Chef's Specials</h2>
+          <ol>
+            <li>Tandoori Platter</li>
+            <li>Special Hyderabadi Dum Biryani</li>
+            <li>Shahi Tukda with Rabdi</li>
+          </ol>
+          <p>
+            Old menu item <del>Classic Tomato Soup</del><br>
+            New menu item <ins>Roasted Almond Tomato Shorba</ins>
+          </p>
+        </article>
+
+        <aside>
+          <h3>Dining Features</h3>
+          <ul>
+            <li>Indoor and rooftop seating</li>
+            <li>Live music on weekends</li>
+            <li>Birthday and event bookings</li>
+            <li>Family combo offers</li>
+          </ul>
+          <details>
+            <summary><strong>Today's Offer</strong></summary>
+            <p>Flat 15% off on lunch combos between 12:00 PM and 3:00 PM.</p>
+          </details>
+        </aside>
+      </section>
+
+      <section id="gallery" class="reveal">
+        <h2>Dish Highlights</h2>
+        <figure>
+          <img src="https://images.stockcake.com/public/3/9/1/391f615c-feb6-46b6-8e35-daadc1f11de7/indian-food-platter-stockcake.jpg" alt="Indian platter with curry and bread" width="100%">
+          <figcaption>Signature North Indian platter served fresh every day.</figcaption>
+        </figure>
+      </section>
+
+      <section id="reservation" class="reveal">
+        <h2>Book a Table</h2>
+        <form action="#" method="post">
+          <fieldset>
+            <legend><strong>Reservation Form</strong></legend>
+
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" name="name" placeholder="Enter your name" required><br>
+
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required><br>
+
+            <label for="guests">No. of Guests:</label>
+            <select id="guests" name="guests">
+              <option>1-2</option>
+              <option>3-4</option>
+              <option>5-8</option>
+              <option>9+</option>
+            </select><br>
+
+            <label for="slot">Preferred Slot:</label>
+            <input type="time" id="slot" name="slot"><br>
+
+            <label for="notes">Special Request:</label>
+            <textarea id="notes" name="notes" rows="4" placeholder="Any special request"></textarea><br>
+
+            <button type="submit">Confirm Reservation</button>
+          </fieldset>
+        </form>
+      </section>
+
+      <section id="contact" class="reveal">
+        <h2>Contact</h2>
+        <dl>
+          <dt><strong>Address:</strong></dt>
+          <dd>Near City Mall, Pimpri-Chinchwad, Pune, Maharashtra</dd>
+
+          <dt><strong>Email:</strong></dt>
+          <dd><a href="mailto:reservations@saffronspice.in">reservations@saffronspice.in</a></dd>
+
+          <dt><strong>Phone:</strong></dt>
+          <dd><a href="tel:+918793091663">+91 87930 91663</a></dd>
+        </dl>
+        <p>
+          Follow us:
+          <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a> |
+          <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">Facebook</a>
+        </p>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <p><cite>Designed by ADWAIT AVADHUT KAMBLE</cite></p>
+    <p><strong>HTML Restaurant Assignment</strong></p>
+    <address>
+      Saffron Spice Restaurant, Pune, Maharashtra
+    </address>
+  </footer>
+  <script>
+    const revealItems = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    revealItems.forEach((item) => revealObserver.observe(item));
+  </script>
+</body>
+</html>
