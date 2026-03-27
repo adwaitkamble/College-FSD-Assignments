@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DriveDeals – Buy & Sell Used Vehicles</title>
+  <meta name="description" content="DriveDeals is the best platform to buy and sell used cars, bikes, and other vehicles at the best prices." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="/" class="nav-brand">
+        <span class="brand-icon">🚗</span>
+        <span>Drive<strong>Deals</strong></span>
+      </a>
+      <div class="nav-links" id="navLinks">
+        <a href="/" class="nav-link active">Browse</a>
+        <a href="/sell.html" class="nav-link">Sell Your Vehicle</a>
+        <a href="/dashboard.html" class="nav-link" id="dashLink" style="display:none">My Listings</a>
+      </div>
+      <div class="nav-auth" id="navAuth">
+        <a href="/login.html" class="btn btn-ghost">Login</a>
+        <a href="/register.html" class="btn btn-primary">Register</a>
+      </div>
+      <div class="nav-user" id="navUser" style="display:none">
+        <span class="user-greeting" id="userGreeting">Hi, User</span>
+        <button class="btn btn-ghost" id="logoutBtn">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">🔥 Trending Now</div>
+      <h1 class="hero-title">Find Your Perfect <span class="gradient-text">Used Vehicle</span></h1>
+      <p class="hero-subtitle">Thousands of verified cars, bikes & more – at unbeatable prices</p>
+      <div class="search-bar">
+        <input type="text" id="searchInput" class="search-input" placeholder="Search by brand, model, or keyword..." />
+        <button class="btn btn-primary search-btn" id="searchBtn">Search</button>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num" id="statTotal">0</span><span class="stat-label">Listings</span></div>
+      <div class="stat"><span class="stat-num">100%</span><span class="stat-label">Verified</span></div>
+      <div class="stat"><span class="stat-num">Free</span><span class="stat-label">To Browse</span></div>
+    </div>
+  </section>
+
+  <!-- FILTER -->
+  <section class="filters-section">
+    <div class="container">
+      <div class="filters-bar">
+        <select class="filter-select" id="filterCategory">
+          <option value="">All Categories</option>
+          <option value="Car">Car</option>
+          <option value="Bike">Bike</option>
+          <option value="Scooter">Scooter</option>
+          <option value="Truck">Truck</option>
+          <option value="Bus">Bus</option>
+          <option value="Other">Other</option>
+        </select>
+        <select class="filter-select" id="filterFuel">
+          <option value="">All Fuel Types</option>
+          <option value="Petrol">Petrol</option>
+          <option value="Diesel">Diesel</option>
+          <option value="Electric">Electric</option>
+          <option value="CNG">CNG</option>
+          <option value="Hybrid">Hybrid</option>
+        </select>
+        <select class="filter-select" id="filterTransmission">
+          <option value="">All Transmissions</option>
+          <option value="Manual">Manual</option>
+          <option value="Automatic">Automatic</option>
+        </select>
+        <input type="number" class="filter-select" id="filterMinPrice" placeholder="Min Price (₹)" />
+        <input type="number" class="filter-select" id="filterMaxPrice" placeholder="Max Price (₹)" />
+        <button class="btn btn-secondary" id="applyFilters">Apply Filters</button>
+        <button class="btn btn-ghost" id="clearFilters">Clear</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- LISTINGS GRID -->
+  <main class="container listings-section">
+    <div class="section-header">
+      <h2 class="section-title">Available Vehicles</h2>
+      <span class="listing-count" id="listingCount">Loading...</span>
+    </div>
+    <div class="listings-grid" id="listingsGrid">
+      <div class="loading-spinner"><div class="spinner"></div><p>Loading listings...</p></div>
+    </div>
+    <div class="pagination" id="pagination"></div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>© 2024 DriveDeals – Buy &amp; Sell Used Vehicles | Built with Node.js, Express &amp; MongoDB</p>
+  </footer>
+
+  <script src="/js/app.js"></script>
+  <script src="/js/index.js"></script>
+</body>
+</html>

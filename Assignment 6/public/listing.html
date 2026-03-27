@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Listing Details – DriveDeals</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="/" class="nav-brand"><span class="brand-icon">🚗</span><span>Drive<strong>Deals</strong></span></a>
+      <div class="nav-links">
+        <a href="/" class="nav-link">Browse</a>
+        <a href="/sell.html" class="nav-link">Sell</a>
+      </div>
+      <div class="nav-user" id="navUser" style="display:none">
+        <span class="user-greeting" id="userGreeting">Hi, User</span>
+        <button class="btn btn-ghost" id="logoutBtn">Logout</button>
+      </div>
+      <div id="navAuth">
+        <a href="/login.html" class="btn btn-ghost">Login</a>
+        <a href="/register.html" class="btn btn-primary">Register</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container" style="margin-top:100px;padding-bottom:80px;max-width:1000px" id="detailContent">
+    <div class="loading-spinner"><div class="spinner"></div><p>Loading listing...</p></div>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script>
+    const user = JSON.parse(localStorage.getItem('user') || 'null');
+    const token = localStorage.getItem('token');
+
+    if (user) {
+      document.getElementById('navUser').style.display = 'flex';
+      document.getElementById('navAuth').style.display = 'none';
+      document.getElementById('userGreeting').textContent = `Hi, ${user.name}`;
+    }
+    document.getElementById('logoutBtn')?.addEventListener('click', () => {
+      localStorage.clear();
+      window.location.href = '/';
+    });
+
+    const id = new URLSearchParams(window.location.search).get('id');
+    if (!id) window.location.href = '/';
+
+    async function loadListing() {
+      const container = document.getElementById('detailContent');
+      try {
+        const res = await fetch(`/api/listings/${id}`);
+        const l = await res.json();
+        if (!res.ok) throw new Error(l.message || 'Not found');
+
+        const isOwner = user && l.seller?._id === user.id;
+
+        container.innerHTML = `
+          <a href="/" class="back-link">← Back to listings</a>
+          <div class="detail-grid">
+            <div class="detail-gallery">
+              ${l.images?.length
+                ? `<img src="${l.images[0]}" alt="${l.title}" class="detail-main-img" id="mainImg" />
+                   <div class="detail-thumbs">
+                     ${l.images.map((img, i) => `<img src="${img}" class="thumb ${i===0?'active':''}" onclick="document.getElementById('mainImg').src='${img}'; document.querySelectorAll('.thumb').forEach(t=>t.classList.remove('active')); this.classList.add('active');" />`).join('')}
+                   </div>`
+                : `<div class="detail-img-placeholder">🚗<br><small>No images</small></div>`}
+            </div>
+            <div class="detail-info">
+              <div class="detail-badges">
+                <span class="listing-badge ${l.status==='sold'?'badge-sold':'badge-available'}">${l.status==='sold'?'SOLD':'AVAILABLE'}</span>
+                <span class="listing-badge badge-category">${l.category}</span>
+              </div>
+              <h1 class="detail-title">${l.title}</h1>
+              <div class="detail-price">₹${l.price?.toLocaleString('en-IN')}</div>
+
+              <div class="detail-specs">
+                <div class="spec-item"><span>Brand</span><strong>${l.brand}</strong></div>
+                <div class="spec-item"><span>Model</span><strong>${l.model}</strong></div>
+                <div class="spec-item"><span>Year</span><strong>${l.year}</strong></div>
+                <div class="spec-item"><span>KM Driven</span><strong>${l.km_driven?.toLocaleString()} km</strong></div>
+                <div class="spec-item"><span>Fuel</span><strong>${l.fuel_type}</strong></div>
+                <div class="spec-item"><span>Transmission</span><strong>${l.transmission}</strong></div>
+                <div class="spec-item"><span>Condition</span><strong>${l.condition}</strong></div>
+                <div class="spec-item"><span>Views</span><strong>${l.views}</strong></div>
+              </div>
+
+              ${l.description ? `<div class="detail-desc"><h4>Description</h4><p>${l.description}</p></div>` : ''}
+
+              <div class="detail-seller">
+                <h4>Seller Information</h4>
+                <div class="seller-info">
+                  <div class="seller-avatar">${l.seller?.name?.charAt(0)?.toUpperCase()}</div>
+                  <div>
+                    <strong>${l.seller?.name}</strong>
+                    <p>${l.seller?.location || ''}</p>
+                  </div>
+                </div>
+                ${l.seller?.phone ? `<a href="tel:${l.seller.phone}" class="btn btn-primary btn-full" style="margin-top:12px">📞 Call Seller: ${l.seller.phone}</a>` : ''}
+                ${l.seller?.email ? `<a href="mailto:${l.seller.email}" class="btn btn-secondary btn-full" style="margin-top:8px">✉️ Email Seller</a>` : ''}
+              </div>
+
+              <div class="detail-meta">
+                <span>📍 ${l.location}</span>
+                <span>📅 Listed ${new Date(l.createdAt).toLocaleDateString('en-IN', {day:'2-digit',month:'short',year:'numeric'})}</span>
+              </div>
+            </div>
+          </div>
+        `;
+      } catch (err) {
+        container.innerHTML = `<div class="empty-state"><div class="empty-icon">😕</div><h3>Listing not found</h3><a href="/" class="btn btn-primary">Back to Home</a></div>`;
+      }
+    }
+
+    loadListing();
+  </script>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Dashboard – DriveDeals</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="/" class="nav-brand"><span class="brand-icon">🚗</span><span>Drive<strong>Deals</strong></span></a>
+      <div class="nav-links">
+        <a href="/" class="nav-link">Browse</a>
+        <a href="/sell.html" class="nav-link">Sell</a>
+        <a href="/dashboard.html" class="nav-link active">My Listings</a>
+      </div>
+      <div class="nav-user" id="navUser">
+        <span class="user-greeting" id="userGreeting">Hi, User</span>
+        <button class="btn btn-ghost" id="logoutBtn">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container" style="margin-top:100px;padding-bottom:80px">
+    <div class="dashboard-header">
+      <div>
+        <h1 id="dashTitle">My Listings</h1>
+        <p id="dashSubtitle">Manage your active and sold listings</p>
+      </div>
+      <a href="/sell.html" class="btn btn-primary">+ Post New Listing</a>
+    </div>
+
+    <div class="listings-grid" id="myListingsGrid">
+      <div class="loading-spinner"><div class="spinner"></div><p>Loading your listings...</p></div>
+    </div>
+
+    <div class="empty-state" id="emptyState" style="display:none">
+      <div class="empty-icon">📋</div>
+      <h3>No listings yet</h3>
+      <p>You haven't posted any vehicles for sale.</p>
+      <a href="/sell.html" class="btn btn-primary">Post Your First Listing</a>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div class="modal-overlay" id="deleteModal" style="display:none">
+    <div class="modal-card">
+      <h3>Delete Listing</h3>
+      <p>Are you sure you want to delete this listing? This action cannot be undone.</p>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" id="cancelDelete">Cancel</button>
+        <button class="btn btn-danger" id="confirmDelete">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script>
+    const user = JSON.parse(localStorage.getItem('user') || 'null');
+    const token = localStorage.getItem('token');
+
+    if (!user || !token) {
+      window.location.href = '/login.html';
+    }
+
+    document.getElementById('userGreeting').textContent = `Hi, ${user?.name}`;
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      localStorage.clear();
+      window.location.href = '/';
+    });
+
+    let deleteListingId = null;
+
+    async function loadMyListings() {
+      const grid = document.getElementById('myListingsGrid');
+      try {
+        const res = await fetch('/api/listings/my/listings', {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        const listings = data.listings || [];
+
+        if (listings.length === 0) {
+          grid.style.display = 'none';
+          document.getElementById('emptyState').style.display = 'flex';
+          return;
+        }
+
+        grid.innerHTML = listings.map(l => `
+          <div class="listing-card" id="card-${l._id}">
+            <div class="listing-img-wrap">
+              ${l.images?.length ? `<img src="${l.images[0]}" alt="${l.title}" class="listing-img" />` : `<div class="listing-img-placeholder">📷</div>`}
+              <span class="listing-badge ${l.status === 'sold' ? 'badge-sold' : 'badge-available'}">${l.status === 'sold' ? 'SOLD' : 'AVAILABLE'}</span>
+            </div>
+            <div class="listing-body">
+              <div class="listing-category">${l.category} • ${l.fuel_type}</div>
+              <h3 class="listing-title">${l.title}</h3>
+              <div class="listing-meta">
+                <span>📅 ${l.year}</span>
+                <span>🛣️ ${l.km_driven?.toLocaleString()} km</span>
+                <span>👁️ ${l.views} views</span>
+              </div>
+              <div class="listing-footer">
+                <span class="listing-price">₹${l.price?.toLocaleString('en-IN')}</span>
+                <div class="listing-actions">
+                  ${l.status !== 'sold' ? `<button class="btn btn-sm btn-secondary" onclick="markSold('${l._id}')">Mark Sold</button>` : ''}
+                  <button class="btn btn-sm btn-danger" onclick="openDelete('${l._id}')">Delete</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      } catch (err) {
+        grid.innerHTML = `<p class="error-text">Failed to load listings.</p>`;
+      }
+    }
+
+    function openDelete(id) {
+      deleteListingId = id;
+      document.getElementById('deleteModal').style.display = 'flex';
+    }
+
+    document.getElementById('cancelDelete').addEventListener('click', () => {
+      deleteListingId = null;
+      document.getElementById('deleteModal').style.display = 'none';
+    });
+
+    document.getElementById('confirmDelete').addEventListener('click', async () => {
+      if (!deleteListingId) return;
+      try {
+        const res = await fetch(`/api/listings/${deleteListingId}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message);
+        document.getElementById(`card-${deleteListingId}`)?.remove();
+        document.getElementById('deleteModal').style.display = 'none';
+        deleteListingId = null;
+        // check if empty
+        const remaining = document.querySelectorAll('.listing-card');
+        if (remaining.length === 0) {
+          document.getElementById('myListingsGrid').style.display = 'none';
+          document.getElementById('emptyState').style.display = 'flex';
+        }
+      } catch (err) {
+        alert(err.message || 'Failed to delete listing.');
+      }
+    });
+
+    async function markSold(id) {
+      try {
+        const res = await fetch(`/api/listings/${id}`, {
+          method: 'PUT',
+          headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: 'sold' })
+        });
+        if (!res.ok) throw new Error('Failed to update status.');
+        loadMyListings();
+      } catch (err) {
+        alert(err.message);
+      }
+    }
+
+    loadMyListings();
+  </script>
+</body>
+</html>

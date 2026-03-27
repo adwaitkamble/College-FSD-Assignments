@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sell Your Vehicle – DriveDeals</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="/" class="nav-brand"><span class="brand-icon">🚗</span><span>Drive<strong>Deals</strong></span></a>
+      <div class="nav-links">
+        <a href="/" class="nav-link">Browse</a>
+        <a href="/sell.html" class="nav-link active">Sell</a>
+        <a href="/dashboard.html" class="nav-link">My Listings</a>
+      </div>
+      <div class="nav-user" id="navUser" style="display:none">
+        <span class="user-greeting" id="userGreeting">Hi, User</span>
+        <button class="btn btn-ghost" id="logoutBtn">Logout</button>
+      </div>
+      <div id="navAuth">
+        <a href="/login.html" class="btn btn-primary">Login to Sell</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container" style="max-width:780px;margin-top:100px;padding-bottom:80px;">
+    <div class="page-header">
+      <h1>Post a Listing</h1>
+      <p>Fill in the details to list your vehicle for sale</p>
+    </div>
+
+    <div class="form-card" id="formCard">
+      <div id="authWall" class="auth-wall" style="display:none">
+        <div class="auth-wall-icon">🔒</div>
+        <h3>Login Required</h3>
+        <p>You need to be logged in to post a listing.</p>
+        <a href="/login.html" class="btn btn-primary">Login Now</a>
+      </div>
+
+      <form id="sellForm" style="display:none">
+        <!-- Basic Info -->
+        <div class="form-section-title">Vehicle Information</div>
+        <div class="form-group">
+          <label>Listing Title *</label>
+          <input type="text" id="title" class="form-input" placeholder="e.g. 2019 Honda City - Well Maintained" required />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Category *</label>
+            <select id="category" class="form-input" required>
+              <option value="">Select category</option>
+              <option value="Car">Car</option>
+              <option value="Bike">Bike</option>
+              <option value="Scooter">Scooter</option>
+              <option value="Truck">Truck</option>
+              <option value="Bus">Bus</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Brand *</label>
+            <input type="text" id="brand" class="form-input" placeholder="e.g. Honda, Maruti, Hero" required />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Model *</label>
+            <input type="text" id="model" class="form-input" placeholder="e.g. City, Swift, Splendor" required />
+          </div>
+          <div class="form-group">
+            <label>Year *</label>
+            <input type="number" id="year" class="form-input" placeholder="e.g. 2020" min="1980" max="2025" required />
+          </div>
+        </div>
+
+        <!-- Specs -->
+        <div class="form-section-title">Specifications</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Fuel Type *</label>
+            <select id="fuel_type" class="form-input">
+              <option value="Petrol">Petrol</option>
+              <option value="Diesel">Diesel</option>
+              <option value="Electric">Electric</option>
+              <option value="CNG">CNG</option>
+              <option value="Hybrid">Hybrid</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Transmission *</label>
+            <select id="transmission" class="form-input">
+              <option value="Manual">Manual</option>
+              <option value="Automatic">Automatic</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>KM Driven *</label>
+            <input type="number" id="km_driven" class="form-input" placeholder="e.g. 45000" required />
+          </div>
+          <div class="form-group">
+            <label>Condition *</label>
+            <select id="condition" class="form-input">
+              <option value="Excellent">Excellent</option>
+              <option value="Good">Good</option>
+              <option value="Fair">Fair</option>
+              <option value="Poor">Poor</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Pricing & Location -->
+        <div class="form-section-title">Pricing & Location</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Asking Price (₹) *</label>
+            <input type="number" id="price" class="form-input" placeholder="e.g. 350000" required />
+          </div>
+          <div class="form-group">
+            <label>Location *</label>
+            <input type="text" id="location" class="form-input" placeholder="e.g. Pune, Maharashtra" required />
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="form-section-title">Description</div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea id="description" class="form-input" rows="4" placeholder="Describe your vehicle, any modifications, reason for selling..."></textarea>
+        </div>
+
+        <!-- Images -->
+        <div class="form-section-title">Photos (Optional, Max 5)</div>
+        <div class="form-group">
+          <label>Upload Images</label>
+          <input type="file" id="images" class="form-input" accept="image/*" multiple />
+          <p class="form-hint">Max 5 images, each under 5MB. Supported: JPG, PNG, WEBP</p>
+        </div>
+
+        <div class="form-error" id="sellError"></div>
+        <button type="submit" class="btn btn-primary btn-full" id="sellSubmit">Post Listing</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script>
+    const user = JSON.parse(localStorage.getItem('user') || 'null');
+    const token = localStorage.getItem('token');
+    const authWall = document.getElementById('authWall');
+    const sellForm = document.getElementById('sellForm');
+    const navUser = document.getElementById('navUser');
+    const navAuth = document.getElementById('navAuth');
+
+    if (user && token) {
+      navUser.style.display = 'flex';
+      navAuth.style.display = 'none';
+      document.getElementById('userGreeting').textContent = `Hi, ${user.name}`;
+      sellForm.style.display = 'block';
+    } else {
+      authWall.style.display = 'flex';
+    }
+
+    document.getElementById('logoutBtn')?.addEventListener('click', () => {
+      localStorage.clear();
+      window.location.href = '/';
+    });
+
+    document.getElementById('sellForm')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const errorEl = document.getElementById('sellError');
+      const btn = document.getElementById('sellSubmit');
+      errorEl.textContent = '';
+      btn.disabled = true; btn.textContent = 'Posting...';
+
+      const formData = new FormData();
+      formData.append('title', document.getElementById('title').value);
+      formData.append('category', document.getElementById('category').value);
+      formData.append('brand', document.getElementById('brand').value);
+      formData.append('model', document.getElementById('model').value);
+      formData.append('year', document.getElementById('year').value);
+      formData.append('price', document.getElementById('price').value);
+      formData.append('km_driven', document.getElementById('km_driven').value);
+      formData.append('fuel_type', document.getElementById('fuel_type').value);
+      formData.append('transmission', document.getElementById('transmission').value);
+      formData.append('condition', document.getElementById('condition').value);
+      formData.append('description', document.getElementById('description').value);
+      formData.append('location', document.getElementById('location').value);
+
+      const files = document.getElementById('images').files;
+      for (let i = 0; i < files.length; i++) formData.append('images', files[i]);
+
+      try {
+        const res = await fetch('/api/listings', {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}` },
+          body: formData
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message);
+        window.location.href = '/dashboard.html';
+      } catch (err) {
+        errorEl.textContent = err.message || 'Failed to post listing.';
+      } finally { btn.disabled = false; btn.textContent = 'Post Listing'; }
+    });
+  </script>
+</body>
+</html>

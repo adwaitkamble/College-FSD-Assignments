@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  # MongoDB Service
+  mongodb:
+    image: mongo:latest
+    container_name: drivedeals-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    restart: always
+
+  # Node.js App Service
+  app:
+    build: .
+    container_name: drivedeals-app
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - MONGO_URI=mongodb://mongodb:27017/used_items_marketplace
+      - JWT_SECRET=your_super_secret_jwt_key_change_this_in_production_2024
+      - NODE_ENV=production
+    depends_on:
+      - mongodb
+    restart: always
+    volumes:
+      - ./uploads:/app/uploads
+
+volumes:
+  mongo_data:
