@@ -1,0 +1,20 @@
+[
+  {
+    "_id": "9e340a23-9e24-4ab8-ac78-75950ff580d9",
+    "city": "Pune",
+    "country": "IN",
+    "lat": 18.5196,
+    "lon": 73.8553,
+    "createdAt": "2026-04-02T13:00:29.103Z",
+    "updatedAt": "2026-04-02T13:00:29.103Z"
+  },
+  {
+    "_id": "4e9bddd9-e698-4ff6-adaf-5d03d7085aa4",
+    "city": "London",
+    "country": "GB",
+    "lat": 51.5085,
+    "lon": -0.1257,
+    "createdAt": "2026-04-02T07:11:19.763Z",
+    "updatedAt": "2026-04-02T07:11:19.763Z"
+  }
+]
