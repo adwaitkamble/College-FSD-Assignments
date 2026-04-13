@@ -16,7 +16,7 @@ const Navbar = () => {
             to="/"
             className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}
           >
-            🏠 Home
+            Home
           </Link>
         </li>
         <li>

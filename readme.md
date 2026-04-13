@@ -1,81 +1,189 @@
-# 🌤️ AeroDash - Real-Time Weather Dashboard
+# AeroDash
 
-## 📝 Project Overview
-AeroDash is a full-stack web application designed to visualize real-time weather data and 5-day forecasts for cities worldwide. This project serves as a comprehensive demonstration of full-stack development principles, integrating a robust backend API, a responsive frontend, and interactive data visualizations. 
+AeroDash is a full-stack weather dashboard built with React, Vite, Express, and MongoDB. Users can search for real-time weather, view forecasts, and save favorite cities.
 
-**Objective:** To provide users with an intuitive dashboard to search for global cities, view real-time weather metrics, save favorite locations, and visualize temperature and humidity trends.
+## Tech Stack
 
----
+- Frontend: React, Vite, Axios, Chart.js
+- Backend: Node.js, Express
+- Database: MongoDB with Mongoose
+- External API: OpenWeatherMap
 
-## 🚀 Technologies & Software Requirements
-
-### Development Tools
-* **IDE:** Visual Studio Code (VS Code)
-* **Environment:** Node.js (v18+)
-* **Version Control:** Git & GitHub
-* **API Testing:** Postman / Thunder Client
-
-### Tech Stack (MERN)
-* **Frontend:** React.js (Vite), Tailwind CSS
-* **Data Visualization:** Chart.js, react-chartjs-2
-* **Backend:** Node.js, Express.js
-* **Database:** MongoDB Atlas, Mongoose (ODM)
-* **HTTP Client:** Axios
-* **External API:** OpenWeatherMap API
-
----
-
-## 🧩 Website Components (Frontend UI)
-
-1. **`Navbar`**: Top navigation containing the app logo and links (Home, Saved Cities).
-2. **`SearchBar`**: Input field for users to query city weather data.
-3. **`Dashboard`**: The main view container holding all weather widgets and charts.
-4. **`CurrentWeatherWidget`**: Displays immediate metrics (current temperature, weather icon, humidity, wind speed).
-5. **`ForecastLineChart`**: A Chart.js line graph visualizing temperature fluctuations over the next 5 days.
-6. **`MetricsBarChart`**: A Chart.js bar chart comparing daily humidity or precipitation probabilities.
-7. **`FavoritesSidebar`**: A quick-access list of cities saved by the user to the MongoDB database.
-
----
-
-## 📂 Folder Structure
+## Project Structure
 
 ```text
-weather-dashboard/
-├── server/                     # Backend (Node.js/Express)
-│   ├── config/
-│   │   └── db.js               # MongoDB connection setup
-│   ├── controllers/
-│   │   ├── weatherController.js# Handles OpenWeather API calls
-│   │   └── favoriteController.js# Handles saving/fetching favorite cities
-│   ├── models/
-│   │   └── FavoriteCity.js     # Mongoose schema for saved cities
-│   ├── routes/
-│   │   ├── weatherRoutes.js    # Routes for weather data endpoints
-│   │   └── favoriteRoutes.js   # Routes for database CRUD operations
-│   ├── .env                    # Environment variables (API keys, DB URI)
-│   ├── server.js               # Entry point for backend
-│   └── package.json            
-│
-└── client/                     # Frontend (React.js)
-    ├── public/
-    ├── src/
-    │   ├── assets/             # Images, icons
-    │   ├── components/         # Reusable UI components
-    │   │   ├── Navbar.jsx
-    │   │   ├── SearchBar.jsx
-    │   │   ├── CurrentWeatherWidget.jsx
-    │   │   └── FavoritesList.jsx
-    │   ├── charts/             # Visualization components
-    │   │   ├── ForecastLineChart.jsx
-    │   │   └── MetricsBarChart.jsx
-    │   ├── pages/              # Main page views
-    │   │   ├── Home.jsx
-    │   │   └── SavedDashboards.jsx
-    │   ├── services/           # Axios API call logic
-    │   │   └── api.js          # Functions connecting to Node backend
-    │   ├── App.jsx             # Main React application component
-    │   └── main.jsx            # React DOM rendering
-    ├── .env                    # Frontend environment variables
-    ├── tailwind.config.js      # Tailwind styling configuration
-    └── package.json
-    
+Assignment 4/
+|-- client/
+|-- server/
+|-- readme.md
+```
+
+## Prerequisites
+
+Make sure these are installed before running the project:
+
+- Node.js 18 or later
+- npm
+- MongoDB Community Server
+- Git
+
+## Clone The Repository
+
+```bash
+git clone <your-repository-url>
+cd "Assignment 4"
+```
+
+## Install Dependencies
+
+Install backend dependencies:
+
+```bash
+cd server
+npm install
+```
+
+Install frontend dependencies:
+
+```bash
+cd ../client
+npm install
+```
+
+## Environment Setup
+
+### 1. Server environment
+
+Create `server/.env` with the following values:
+
+```env
+PORT=5001
+MONGO_URI=mongodb://127.0.0.1:27017/aerodash
+OPENWEATHER_API_KEY=your_openweathermap_api_key
+```
+
+Notes:
+
+- `PORT=5001` matches the Vite proxy already configured in the client.
+- `MONGO_URI` points to local MongoDB.
+- `OPENWEATHER_API_KEY` must be a valid API key from OpenWeatherMap.
+
+### 2. Client environment
+
+Create `client/.env` with:
+
+```env
+VITE_API_BASE_URL=/api
+```
+
+This works with the local Vite proxy and forwards API requests to `http://localhost:5001`.
+
+## Start MongoDB
+
+Make sure your local MongoDB server is running before starting the backend.
+
+On Windows, MongoDB often runs as a service automatically. You can check it in `services.msc` or with:
+
+```powershell
+Get-Service MongoDB
+```
+
+If MongoDB is not running, start it from the Services app or from an Administrator PowerShell.
+
+## Run The Project
+
+You need two terminals.
+
+### Terminal 1: Start the backend
+
+```bash
+cd server
+npm run dev
+```
+
+Expected backend output:
+
+```text
+MongoDB Connected: 127.0.0.1
+AeroDash Server running on port 5001
+```
+
+### Terminal 2: Start the frontend
+
+```bash
+cd client
+npm run dev
+```
+
+The Vite development server runs on:
+
+```text
+http://localhost:5175
+```
+
+## Open The App
+
+After both servers are running:
+
+- Frontend: `http://localhost:5175`
+- Backend health check: `http://localhost:5001/`
+
+## Production Build
+
+To build the frontend:
+
+```bash
+cd client
+npm run build
+```
+
+To run the backend without nodemon:
+
+```bash
+cd server
+npm start
+```
+
+## Troubleshooting
+
+### Port 5001 already in use
+
+If you see `EADDRINUSE: address already in use :::5001`, another backend process is already running.
+
+Find and stop it, then restart the server:
+
+```powershell
+netstat -ano | findstr :5001
+taskkill /PID <pid> /F
+```
+
+### MongoDB not configured
+
+If the backend prints `MongoDB not configured`, check that `server/.env` contains:
+
+```env
+MONGO_URI=mongodb://127.0.0.1:27017/aerodash
+```
+
+Make sure the line is written exactly once.
+
+### MongoDB connection error
+
+If MongoDB is installed locally but connection still fails:
+
+- confirm the MongoDB service is running
+- confirm `MONGO_URI` points to `127.0.0.1:27017`
+- confirm no firewall or custom MongoDB port is blocking access
+
+### Weather API requests fail
+
+If weather search does not work:
+
+- verify `OPENWEATHER_API_KEY` is valid
+- restart the backend after changing `.env`
+
+## Notes
+
+- The frontend Vite server proxies `/api` requests to the backend on port `5001`.
+- Favorite cities are designed to use MongoDB. If MongoDB is unavailable, the backend also includes a file-based fallback store in `server/data/favorites.json`.
+- Do not commit real `.env` secrets to GitHub.

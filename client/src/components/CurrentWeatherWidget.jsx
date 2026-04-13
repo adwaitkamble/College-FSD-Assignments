@@ -25,7 +25,14 @@ const CurrentWeatherWidget = ({ data, onSave, isSaved }) => {
 
   return (
     <div className="weather-widget">
+      {/* Currently Observing badge */}
+      <div className="observing-badge">
+        <span className="observing-dot" />
+        Currently Observing
+      </div>
+
       <div className="widget-header">
+        {/* Left: City info */}
         <div className="city-info">
           <h2 className="city-name">
             {name}, <span className="country-code">{country}</span>
@@ -33,50 +40,44 @@ const CurrentWeatherWidget = ({ data, onSave, isSaved }) => {
           <p className="weather-date">{date}</p>
           <p className="weather-desc">{description}</p>
         </div>
+
+        {/* Right: Icon + Temperature – editorial asymmetry */}
         <div className="weather-icon-temp">
           <img src={iconUrl} alt={description} className="weather-icon" />
           <span className="main-temp">{Math.round(temp)}°C</span>
         </div>
       </div>
 
+      {/* Metrics grid */}
       <div className="metrics-grid">
         <div className="metric-card">
           <span className="metric-icon">🌡️</span>
-          <div>
-            <p className="metric-label">Feels Like</p>
-            <p className="metric-value">{Math.round(feels_like)}°C</p>
-          </div>
+          <p className="metric-label">Feels Like</p>
+          <p className="metric-value">{Math.round(feels_like)}°C</p>
         </div>
         <div className="metric-card">
           <span className="metric-icon">💧</span>
-          <div>
-            <p className="metric-label">Humidity</p>
-            <p className="metric-value">{humidity}%</p>
-          </div>
+          <p className="metric-label">Humidity</p>
+          <p className="metric-value">{humidity}%</p>
         </div>
         <div className="metric-card">
           <span className="metric-icon">💨</span>
-          <div>
-            <p className="metric-label">Wind Speed</p>
-            <p className="metric-value">{speed} m/s</p>
-          </div>
+          <p className="metric-label">Wind Speed</p>
+          <p className="metric-value">{speed} m/s</p>
         </div>
         <div className="metric-card">
-          <span className="metric-icon">🔵</span>
-          <div>
-            <p className="metric-label">Pressure</p>
-            <p className="metric-value">{pressure} hPa</p>
-          </div>
+          <span className="metric-icon">⬆️</span>
+          <p className="metric-label">Pressure</p>
+          <p className="metric-value">{pressure} hPa</p>
         </div>
         <div className="metric-card">
           <span className="metric-icon">👁️</span>
-          <div>
-            <p className="metric-label">Visibility</p>
-            <p className="metric-value">{(visibility / 1000).toFixed(1)} km</p>
-          </div>
+          <p className="metric-label">Visibility</p>
+          <p className="metric-value">{(visibility / 1000).toFixed(1)} km</p>
         </div>
       </div>
 
+      {/* Save button */}
       <button
         className={`save-btn ${isSaved ? 'saved' : ''}`}
         onClick={onSave}

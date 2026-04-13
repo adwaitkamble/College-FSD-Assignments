@@ -112,13 +112,16 @@ const Home = () => {
 
       {/* Main Content */}
       <main className="main-content">
+        {/* Hero */}
         <div className="hero-section">
+          <span className="hero-label">Live Atmospheric Data</span>
           <h1 className="hero-title">Real-Time Weather Dashboard</h1>
           <p className="hero-subtitle">
             Search for any city worldwide to get live weather data and 5-day forecasts.
           </p>
         </div>
 
+        {/* Search */}
         <SearchBar onSearch={handleSearch} loading={loading} />
 
         {/* Error Alert */}
@@ -133,7 +136,7 @@ const Home = () => {
         {loading && (
           <div className="loading-container" id="loading-spinner">
             <div className="spinner" />
-            <p className="loading-text">Fetching weather data...</p>
+            <p className="loading-text">Fetching atmospheric data…</p>
           </div>
         )}
 
@@ -147,10 +150,10 @@ const Home = () => {
             />
 
             {forecast && (
-              <>
+              <div className="charts-row">
                 <ForecastLineChart forecastData={forecast} />
                 <MetricsBarChart forecastData={forecast} />
-              </>
+              </div>
             )}
           </div>
         )}

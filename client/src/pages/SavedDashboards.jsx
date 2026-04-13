@@ -8,7 +8,6 @@ import {
   fetchCurrentWeather,
   fetchForecast,
   deleteFavorite,
-  addFavorite,
 } from '../services/api';
 
 const SavedDashboards = () => {
@@ -18,6 +17,7 @@ const SavedDashboards = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [isSaved, setIsSaved] = useState(true);
+  const [activeCity, setActiveCity] = useState('');
 
   useEffect(() => {
     loadFavorites();
@@ -37,6 +37,7 @@ const SavedDashboards = () => {
     setError('');
     setSelectedWeather(null);
     setSelectedForecast(null);
+    setActiveCity(city);
 
     try {
       const [weatherRes, forecastRes] = await Promise.all([
@@ -57,9 +58,9 @@ const SavedDashboards = () => {
     try {
       await deleteFavorite(id);
       await loadFavorites();
-      // If deleted city was selected, clear it
       setSelectedWeather(null);
       setSelectedForecast(null);
+      setActiveCity('');
     } catch (err) {
       setError('Failed to remove city.');
     }
@@ -67,22 +68,59 @@ const SavedDashboards = () => {
 
   return (
     <div className="home-layout">
+      {/* Sidebar with active city highlighting */}
       <aside className="sidebar">
-        <FavoritesList
-          favorites={favorites}
-          onSelect={handleSelectCity}
-          onDelete={handleDeleteFavorite}
-        />
+        <div className="favorites-sidebar">
+          <div className="sidebar-title">
+            ⭐ Saved Cities
+            {favorites.length > 0 && (
+              <span className="sidebar-badge">{favorites.length}</span>
+            )}
+          </div>
+
+          {favorites.length === 0 ? (
+            <p className="no-favorites">
+              No saved cities yet.<br />
+              Go to Home, search &amp; save a city.
+            </p>
+          ) : (
+            <ul className="favorites-list">
+              {favorites.map((fav) => (
+                <li key={fav._id} className="favorite-item">
+                  <button
+                    className={`fav-city-btn ${activeCity === fav.city ? 'active-city' : ''}`}
+                    onClick={() => handleSelectCity(fav.city)}
+                    title={`View weather for ${fav.city}`}
+                  >
+                    <span className="fav-city-name">{fav.city}</span>
+                    <span className="fav-country">{fav.country}</span>
+                  </button>
+                  <button
+                    className="fav-delete-btn"
+                    onClick={() => handleDeleteFavorite(fav._id)}
+                    title={`Remove ${fav.city}`}
+                  >
+                    ✕
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </aside>
 
+      {/* Main Content */}
       <main className="main-content">
+        {/* Hero */}
         <div className="hero-section">
+          <span className="hero-label">Priority Monitoring</span>
           <h1 className="hero-title">⭐ Saved Cities Dashboard</h1>
           <p className="hero-subtitle">
             Click on any saved city to load its weather data and forecasts.
           </p>
         </div>
 
+        {/* Error */}
         {error && (
           <div className="error-alert" role="alert">
             ⚠️ {error}
@@ -90,13 +128,15 @@ const SavedDashboards = () => {
           </div>
         )}
 
+        {/* Loading */}
         {loading && (
           <div className="loading-container">
             <div className="spinner" />
-            <p className="loading-text">Loading weather data...</p>
+            <p className="loading-text">Loading atmospheric data…</p>
           </div>
         )}
 
+        {/* Weather data */}
         {!loading && selectedWeather && (
           <div className="dashboard-grid">
             <CurrentWeatherWidget
@@ -105,14 +145,15 @@ const SavedDashboards = () => {
               isSaved={isSaved}
             />
             {selectedForecast && (
-              <>
+              <div className="charts-row">
                 <ForecastLineChart forecastData={selectedForecast} />
                 <MetricsBarChart forecastData={selectedForecast} />
-              </>
+              </div>
             )}
           </div>
         )}
 
+        {/* Select city prompt */}
         {!loading && !selectedWeather && !error && favorites.length > 0 && (
           <div className="empty-state">
             <div className="empty-icon">👆</div>
@@ -121,6 +162,7 @@ const SavedDashboards = () => {
           </div>
         )}
 
+        {/* No saved cities */}
         {!loading && !selectedWeather && !error && favorites.length === 0 && (
           <div className="empty-state">
             <div className="empty-icon">⭐</div>

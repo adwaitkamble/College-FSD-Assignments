@@ -73,16 +73,15 @@ const MetricsBarChart = ({ forecastData }) => {
     plugins: {
       legend: {
         position: 'top',
-        labels: { color: '#cbd5e1', font: { size: 12 } },
+        labels: { color: '#c7c4d7', font: { size: 11, family: 'Inter' }, boxWidth: 12, padding: 16 },
       },
-      title: {
-        display: true,
-        text: '5-Day Humidity & Precipitation Levels',
-        color: '#f1f5f9',
-        font: { size: 16, weight: 'bold' },
-        padding: { bottom: 16 },
-      },
+      title: { display: false },
       tooltip: {
+        backgroundColor: '#25293a',
+        borderColor: '#464554',
+        borderWidth: 1,
+        titleColor: '#dee1f7',
+        bodyColor: '#c7c4d7',
         callbacks: {
           label: (ctx) => ` ${ctx.dataset.label}: ${ctx.parsed.y}%`,
         },
@@ -90,20 +89,26 @@ const MetricsBarChart = ({ forecastData }) => {
     },
     scales: {
       x: {
-        ticks: { color: '#94a3b8' },
-        grid: { color: 'rgba(148,163,184,0.1)' },
+        ticks: { color: '#908fa0', font: { size: 11, family: 'Inter' } },
+        grid: { color: 'rgba(70,69,84,0.4)' },
+        border: { display: false },
       },
       y: {
         min: 0,
         max: 100,
-        ticks: { color: '#94a3b8', callback: (v) => `${v}%` },
-        grid: { color: 'rgba(148,163,184,0.1)' },
+        ticks: { color: '#908fa0', font: { size: 11, family: 'Inter' }, callback: (v) => `${v}%` },
+        grid: { color: 'rgba(70,69,84,0.4)' },
+        border: { display: false },
       },
     },
   };
 
   return (
     <div className="chart-card">
+      <div className="chart-header">
+        <span className="chart-icon">📊</span>
+        <span className="chart-title">Forecast Metrics</span>
+      </div>
       <div className="chart-container">
         <Bar data={data} options={options} />
       </div>
