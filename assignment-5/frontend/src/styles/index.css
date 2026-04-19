@@ -1,0 +1,142 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --bg-color: #F9FAFB;
+  --surface-color: #FFFFFF;
+  --surface-alt: #F0F4EF;
+  --accent-green: #88A97C;
+  --accent-blue: #A8C6E6;
+  --text-primary: #1A531A;
+  --text-secondary: #8FA382;
+  
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.4);
+  --glass-blur: blur(12px);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #F9FAFB 0%, #E8F0E5 100%);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+/* Glassmorphism Utilities */
+.glass-panel {
+  background: var(--glass-bg);
+  border: var(--glass-border);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
+}
+
+.primary-btn {
+  background-color: var(--accent-green);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.primary-btn:hover {
+  background-color: var(--text-primary);
+  transform: translateY(-2px);
+}
+
+.secondary-btn {
+  background-color: transparent;
+  color: var(--text-primary);
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--accent-green);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.secondary-btn:hover {
+  background-color: var(--surface-alt);
+  transform: translateY(-2px);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Form Styles */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(136, 169, 124, 0.3);
+  border-radius: 8px;
+  background-color: var(--surface-color);
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
+  transition: border-color 0.3s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--accent-green);
+  box-shadow: 0 0 0 2px rgba(136, 169, 124, 0.2);
+}
+
+textarea.form-input {
+  resize: vertical;
+}
+
+/* Page Layout Wrappers */
+.page-wrapper {
+  min-height: calc(100vh - 160px); 
+  padding-top: 5rem;
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 3rem;
+  font-size: 2.5rem;
+  color: var(--text-primary);
+}
+
+.section-subtitle {
+  text-align: center;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: -2rem auto 3rem;
+}
